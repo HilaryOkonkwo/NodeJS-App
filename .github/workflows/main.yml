@@ -26,12 +26,13 @@
 #         run: |
 #           kubectl version --client 
 #           kubectl cluster-info
+
 name: CI/CD to Huawei SWR and CCE
 
 on:
   push:
     branches:
-      - main  # Trigger CI/CD when code is pushed to the 'master' branch
+      - main  # Trigger CI/CD when code is pushed to the 'main' branch
 
 jobs:
   deploy:
@@ -41,11 +42,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: Uninstall kubectl
       - name: Uninstall kubectl (optional)
         run: |
           sudo apt remove kubectl -y  
-  
+
       - name: Install kubectl 1.27
         run: |
           curl -LO https://dl.k8s.io/release/v1.27.0/bin/linux/amd64/kubectl
@@ -61,6 +61,9 @@ jobs:
           project_id: "eecc7ec81ad346adbcde0a07fa343cb0"
           cluster_id: "36aae077-e83f-11ee-b54e-0255ac100750"
 
+      - name: Get CCE Cluster info
+        run: |
+          kubectl cluster-info
 
  
 
