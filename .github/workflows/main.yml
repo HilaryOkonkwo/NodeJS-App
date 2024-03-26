@@ -40,7 +40,18 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+        
+      - name: Uninstall kubectl
+      - name: Uninstall kubectl (optional)
+        run: |
+          sudo apt remove kubectl -y  
+  
+      - name: Install kubectl 1.27
+        run: |
+          curl -LO https://dl.k8s.io/release/v1.27.0/bin/linux/amd64/kubectl
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/  # Adjust path if needed for your environment
+          
       - name: Get CCE Cluster Credentials
         uses: huaweicloud/cce-credential-action@v1.0.0
         with:
@@ -50,15 +61,8 @@ jobs:
           project_id: "eecc7ec81ad346adbcde0a07fa343cb0"
           cluster_id: "36aae077-e83f-11ee-b54e-0255ac100750"
 
-      - name: Uninstall kubectl
-        run: |
-          sudo apt-get update
-          sudo apt-get remove kubectl -y
 
-      - name: Install kubectl
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y kubectl
+ 
 
       - name: Get CCE Cluster info
         run: |
