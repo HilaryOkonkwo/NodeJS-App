@@ -1,9 +1,37 @@
+# name: CI/CD to Huawei SWR and CCE
+
+# on:
+#   push:
+#     branches:
+#       - main  # Trigger CI/CD when code is pushed to the 'master' branches
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       - name: Get CCE Cluster Credentials
+#         uses: huaweicloud/cce-credential-action@v1.0.1
+#         with:
+#           ak: ${{ secrets.ACCESSKEY }}
+#           sk: ${{ secrets.SECRETACCESSKEY }}
+#           region: "af-south-1"
+#           project_id: "eecc7ec81ad346adbcde0a07fa343cb0"
+#           cluster_id: "36aae077-e83f-11ee-b54e-0255ac100750"
+
+#       - name: Get CCE Cluster info
+#         run: |
+#           kubectl version --client 
+#           kubectl cluster-info
 name: CI/CD to Huawei SWR and CCE
 
 on:
   push:
     branches:
-      - main  # Trigger CI/CD when code is pushed to the 'master' branches
+      - master  # Trigger CI/CD when code is pushed to the 'master' branch
 
 jobs:
   deploy:
@@ -14,13 +42,23 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Get CCE Cluster Credentials
-        uses: huaweicloud/cce-credential-action@v1.0.1
+        uses: huaweicloud/cce-credential-action@v1.0.0
         with:
           ak: ${{ secrets.ACCESSKEY }}
           sk: ${{ secrets.SECRETACCESSKEY }}
           region: "af-south-1"
           project_id: "eecc7ec81ad346adbcde0a07fa343cb0"
           cluster_id: "36aae077-e83f-11ee-b54e-0255ac100750"
+
+      - name: Uninstall kubectl
+        run: |
+          sudo apt-get update
+          sudo apt-get remove kubectl -y
+
+      - name: Install kubectl
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y kubectl
 
       - name: Get CCE Cluster info
         run: |
