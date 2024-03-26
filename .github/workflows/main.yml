@@ -31,7 +31,7 @@ name: CI/CD to Huawei SWR and CCE
 on:
   push:
     branches:
-      - master  # Trigger CI/CD when code is pushed to the 'master' branch
+      - main  # Trigger CI/CD when code is pushed to the 'master' branch
 
 jobs:
   deploy:
