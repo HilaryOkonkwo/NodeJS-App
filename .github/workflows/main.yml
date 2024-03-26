@@ -3,7 +3,7 @@ name: CI/CD to Huawei SWR and CCE
 on:
   push:
     branches:
-      - master  # Trigger CI/CD when code is pushed to the 'master' branches
+      - master  # Trigger CI/CD when code is pushed to the 'master' branch
 
 jobs:
   deploy:
@@ -13,19 +13,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: get CCE Cluster Credentials
+      - name: Get CCE Cluster Credentials
         uses: huaweicloud/cce-credential-action@v1.0.0
         with:
-        ak: ${{ secrets.ACCESSKEY }}
-        sk: ${{ secrets.SECRETACCESSKEY }}
-        region: "af-south-1"
-        project_id: "eecc7ec81ad346adbcde0a07fa343cb0"
-        cluster_id: "36aae077-e83f-11ee-b54e-0255ac100750"
+          ak: ${{ secrets.ACCESSKEY }}
+          sk: ${{ secrets.SECRETACCESSKEY }}
+          region: "af-south-1"
+          project_id: "eecc7ec81ad346adbcde0a07fa343cb0"
+          cluster_id: "36aae077-e83f-11ee-b54e-0255ac100750"
 
-      - name: get CCE Cluster info
-      - run: |
+      - name: Get CCE Cluster info
+        run: |
           kubectl version --client 
           kubectl cluster-info
-     
-
-          
